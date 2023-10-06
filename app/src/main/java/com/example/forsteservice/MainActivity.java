@@ -2,7 +2,9 @@ package com.example.forsteservice;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 
@@ -12,7 +14,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        BroadcastReceiver myBroadcastReceiver = new MinBroadcastReceiver();
+        IntentFilter filter = new IntentFilter("com.example.service.MITTSIGNAL");
+        filter.addAction("com.example.service.MITTSIGNAL");
+        this.registerReceiver(myBroadcastReceiver, filter);
     }
+
 
     public void startService(View v) {
         Intent intent1 = new Intent(this, MinService.class);
@@ -23,6 +31,13 @@ public class MainActivity extends AppCompatActivity {
         Intent intent2 = new Intent(this, MinService.class);
         this.stopService(intent2);
     }
+
+    public void sendBroadcast(View v) {
+        Intent intent = new Intent();
+        intent.setAction("com.example.service.MITTSIGNAL");
+        sendBroadcast(intent);
+    }
+
 
 //    public void sendBroadcast(View v) {
 //        Intent intent3 = new Intent(this, MinService.class);
