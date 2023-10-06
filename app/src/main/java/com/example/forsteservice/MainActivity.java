@@ -2,7 +2,10 @@ package com.example.forsteservice;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -37,6 +40,24 @@ public class MainActivity extends AppCompatActivity {
         intent.setAction("com.example.service.MITTSIGNAL");
         sendBroadcast(intent);
     }
+
+    public void settPeriodisk(View v) {
+        Intent intent = new Intent(this, SettPeriodiskService.class);
+        this.startService(intent);
+    }
+
+    public void stoppPeriodisk(View v) {
+        Intent i = new Intent(this, MinService.class);
+        PendingIntent pintent = PendingIntent.getService(this, 0, i, PendingIntent.FLAG_IMMUTABLE);
+
+        AlarmManager alarm = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        if (alarm != null) {
+            alarm.cancel(pintent);
+        }
+    }
+
+
 
 
 //    public void sendBroadcast(View v) {
